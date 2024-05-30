@@ -3,38 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP App</title>
+    <title>Bookstore</title>
 </head>
 <body>
-    <h1>PHP Application</h1>
+    <h1>Bookstore</h1>
+
     <?php
-    // MySQL database connection
-    $host = 'php-app-data.clcmom6m8aky.us-east-2.rds.amazonaws.com';
-    $username = 'admin';
-    $password = 'admin12345';
-    $database = 'php-app-data';
+    // Database connection parameters
+    $host = 'localhost'; // Change this if your database is hosted elsewhere
+    $username = 'your_username'; // Replace with your MySQL username
+    $password = 'your_password'; // Replace with your MySQL password
+    $database = 'bookstore'; // Replace with your database name
+
+    // Create connection
     $conn = new mysqli($host, $username, $password, $database);
-    
+
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    
-    // Fetching data from MySQL database
-    $sql = "SELECT * FROM users";
+
+    // Query to retrieve books from the 'books' table
+    $sql = "SELECT * FROM books";
     $result = $conn->query($sql);
-    
+
     if ($result->num_rows > 0) {
+        // Output data of each row
         echo "<ul>";
         while($row = $result->fetch_assoc()) {
-            echo "<li>" . $row["name"] . "</li>";
+            echo "<li>Title: " . $row["title"]. " - Author: " . $row["author"]. " - Published Year: " . $row["published_year"]. "</li>";
         }
         echo "</ul>";
     } else {
         echo "0 results";
     }
-    
-    // Close MySQL connection
+
+    // Close connection
     $conn->close();
     ?>
 </body>
